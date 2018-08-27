@@ -3,9 +3,9 @@
 from random import randint
 
 class DoctorData(object):
-    """Class holds all data and provides functions for the REST requests.
+    """Class holds all data and provides functions for the HTTP requests.
 
-    This class hold all the data in memory as doctor dict(). It provides methods for REST requests.
+    This class hold all the data in memory as doctor dict(). It provides methods for HTTP requests.
     A database can be added to store the data instead of holding it in memory. Two doctors
     are initialized in init for simplicity/scope.
 
