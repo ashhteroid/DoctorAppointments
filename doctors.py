@@ -14,13 +14,12 @@ class DoctorData(object):
         self.add_doctor('Jane', 'Doe')
 
     def add_doctor(self, first_name, last_name):
-        doc_id = randint(0, 0)
+        doc_id = randint(1, 9999)
         self.doctors[doc_id] = Doctor(first_name, last_name)
 
     def get_doctors(self):
         #print self.doctors
-        return [(doc[0], doc[1].last_name, doc[1].first_name) for doc in self.doctors.items()]
-
+        return [{doc[0]: {"first_name": doc[1].first_name, "last_name":doc[1].last_name}} for doc in self.doctors.items()]
 
     def add_appointment(self, json_data):
         '''
@@ -43,9 +42,20 @@ class DoctorData(object):
         Assuming a valid doctor and a date is already selected in the GUI before requesting a new appointment.
 
         '''
+        if doc_id not in self.doctors:
+            return []
         doctor = self.doctors[int(doc_id)]
         appointments = doctor.get_appointments(date)
-        return [ (str(appointment[0]), str(appointment[1])) for appointment in appointments.items()]
+        return [ {str(appointment[0]):str(appointment[1])} for appointment in appointments.items()]
+
+    def del_appointment(self, doc_id, date, apt_id):
+        '''
+        Assuming a valid doctor, date and an appointment is already selected in the GUI before requesting a new appointment.
+        '''
+        if doc_id not in self.doctors:
+            return "No such doctor."
+        doctor = self.doctors[int(doc_id)]
+        return doctor.del_appointment(date, apt_id)
          
 
 class Doctor(object):
@@ -62,11 +72,20 @@ class Doctor(object):
         # If New date
         if date not in self.dates:
             self.dates[date] = DateInfo()
-        date_slot = self.dates[date]
-        return date_slot.add_appointment(time, apt_id, apt_data)
+        date_info = self.dates[date]
+        return date_info.add_appointment(time, apt_id, apt_data)
 
     def get_appointments(self, date):
+        if date not in self.dates:
+            return {}
         return self.dates[date].get_appointments()
+
+    def del_appointment(self, date, apt_id):
+        if date not in self.dates:
+            return "No such date."
+        date_info = self.dates[date]
+        return date_info.del_appointment(apt_id)
+        
 
 class DateInfo(object):
     """docstring for DateInfo"""
@@ -80,17 +99,25 @@ class DateInfo(object):
     def add_appointment(self, time, apt_id, apt_data):
         if time not in self.booked:
             self.booked[time] = True
-            self.appointments[apt_id] = Appointment(*apt_data)
+            self.appointments[int(apt_id)] = Appointment(*apt_data)
             return "Appointment booked."
         else:
             return "Appointment not successful. The slot is already booked."
     def get_appointments(self):
         return self.appointments
 
+    def del_appointment(self, apt_id):
+        if apt_id not in self.appointments:
+            return "No such appointment to delete."
+        apt_time = self.appointments[int(apt_id)].time
+        del self.appointments[int(apt_id)]
+        del self.booked[apt_time]
+        return "Appointment deleted."
+
 class Appointment(object):
     """docstring for Appointment"""
     def __init__(self, patient_first_name, patient_last_name, date, time, kind):
-        self.patient_last_name = patient_first_name
+        self.patient_first_name = patient_first_name
         self.patient_last_name = patient_last_name
         self.date = date
         self.time = time
