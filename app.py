@@ -14,11 +14,14 @@ def api_doctors():
 
 @app.route('/appointments', methods = ['GET', 'POST', 'DELETE'])
 def api_appointments():
-	if (request.method == 'POST' and request.headers['Content-Type'] == 'application/json'):
-    		#app.logger.info(request.json)
-    		return doc_data.add_appointment(request.json)
+    if (request.method == 'POST' and request.headers['Content-Type'] == 'application/json'):
+        #app.logger.info(request.json)
+        return doc_data.add_appointment(request.json)
+    elif request.method == 'GET':
+        app.logger.info(request.json)
+        return str(doc_data.get_appointments(request.json["doc_id"],request.json["date"]))
 
 if __name__ == '__main__':
-    
+
     print doc_data.get_doctors()
     app.run(debug=True)
