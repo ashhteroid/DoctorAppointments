@@ -2,10 +2,10 @@
 
 The task is to build a web back-end that supports
 the following functionality via HTTP requests:
-● Get a list of all doctors
-● Get a list of all appointments for a particular doctor and particular day
-● Add a new appointment to a doctor's calendar
-● Delete an existing appointment from a doctor's calendar
+* Get a list of all doctors
+* Get a list of all appointments for a particular doctor and particular day
+* Add a new appointment to a doctor's calendar
+* Delete an existing appointment from a doctor's calendar
 
 Doctors should have a unique ID, a first name, and a last name. Appointments should have a unique ID,
 patient first name, patient last name, date & time, and kind (New Patient or Follow-up). The
@@ -14,7 +14,7 @@ backend should respond to HTTP requests (ie GET, POST, DELETE).
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
-1. clone the project
+1. Clone the project
 2. python app.py (To start flask app)
 3. python run.py (Helper script to test the app)
 
@@ -26,7 +26,7 @@ flask needs to be installed
 pip install flask
 ```
 
-## Running the tests
+## Running Unit tests
 
 python -m unittest discover -v
 
@@ -40,9 +40,9 @@ python -m unittest discover -v
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details
 
-## Same Curl Commands to test
+## Sample Curl Commands for Testing
 
 curl -X GET http://127.0.0.1:5000/doctors
 
